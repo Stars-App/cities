@@ -3,6 +3,7 @@ use crate::processor::Place;
 pub mod albania;
 pub mod andorra;
 pub mod austria;
+pub mod azores;
 pub mod poland;
 
 pub fn get_data() -> Vec<Place> {
@@ -10,6 +11,7 @@ pub fn get_data() -> Vec<Place> {
     data.extend(albania::PLACES);
     data.extend(andorra::PLACES);
     data.extend(austria::PLACES);
+    data.extend(azores::PLACES);
     data.extend(poland::PLACES);
     data
 }
