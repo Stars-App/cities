@@ -1,4 +1,4 @@
-use crate::processor::Place;
+use crate::Place;
 
 pub const PLACES: [Place; 25008] = [
 Place { name: "Baltimore, USA", lat: 39.290882, lon: -76.610759 },

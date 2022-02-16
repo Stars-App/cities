@@ -1,4 +1,4 @@
-use crate::processor::Place;
+use crate::Place;
 
 pub const PLACES: [Place; 6711] = [
     Place { name: "Merzenstein, Österreich", lat: 48.569423, lon: 15.095076 },

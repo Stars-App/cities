@@ -1,4 +1,4 @@
-use crate::processor::Place;
+use crate::Place;
 
 pub const PLACES: [Place; 158] = [
     Place { name: "Angra do Heroísmo, Açores", lat: 38.659317, lon: -27.219558 },

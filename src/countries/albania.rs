@@ -1,4 +1,4 @@
-use crate::processor::Place;
+use crate::Place;
 
 pub const PLACES: [Place; 3077] = [
     Place { name: "Rrogozhinë, Shqipëria", lat: 41.075899, lon: 19.664977 },

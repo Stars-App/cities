@@ -1,25 +1,9 @@
 use std::fs::File;
 use std::io::{self, prelude::*, BufReader};
-use serde::{Deserialize, Serialize};
-
-#[derive(Serialize, Deserialize, Clone)]
-pub struct Node {
-    pub name: String,
-    pub place: String,
-    pub province: String,
-    pub lat: f64,
-    pub lon: f64,
-}
-
-#[derive(Serialize, Clone)]
-pub struct Place {
-    pub name: &'static str,
-    pub lat: f64,
-    pub lon: f64,
-}
+use crate::Node;
 
 pub fn process_data() -> io::Result<()> {
-    let file = File::open("poland-latest.osm")?;
+    let file = File::open("us-latest.osm")?;
     let reader = BufReader::new(file);
 
     let mut nodes = Vec::new();
@@ -54,7 +38,7 @@ pub fn process_data() -> io::Result<()> {
 
         if line.starts_with("<tag k=\"is_in:province\"") && index < nodes.len() {
             let province = line.split("v=\"").nth(1).unwrap().split("\"").next().unwrap();
-            nodes[index].province = province.to_string().replace("województwo", "").trim().to_string();
+            nodes[index].province = province.trim().to_string();
         }
 
         if line.contains("</node>") {
@@ -77,10 +61,10 @@ pub fn to_static_file() -> io::Result<()> {
     let file = File::open("nodes.json")?;
     let reader = BufReader::new(file);
 
-    let country = "Polska";
+    let country = "USA";
     let lines = String::from_utf8(reader.bytes().map(|b| b.unwrap()).collect()).unwrap();
     let nodes: Vec<Node> = serde_json::from_str(&lines).unwrap();
-    let mut places = String::from("pub const PLACES: Vec<Place> = vec![");
+    let mut places = String::from("pub const PLACES: [Place; 1] = [");
 
     for node in nodes {
         let name: String = if node.province == "" {

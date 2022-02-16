@@ -1,4 +1,4 @@
-use crate::processor::Place;
+use crate::Place;
 
 pub const PLACES: [Place; 40] = [
     Place { name: "Andorra la Vella, Andorra", lat: 42.506939, lon: 1.521247 },

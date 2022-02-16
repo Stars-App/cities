@@ -1,4 +1,4 @@
-use crate::processor::Place;
+use crate::Place;
 
 pub mod albania;
 pub mod andorra;

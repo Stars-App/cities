@@ -1,4 +1,4 @@
-use crate::processor::Place;
+use crate::Place;
 
 pub const PLACES: [Place; 48575] = [
 Place { name: "Skarszewy (pomorskie), Polska", lat: 54.071752, lon: 18.445995 },
