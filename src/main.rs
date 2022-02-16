@@ -1,16 +1,17 @@
 #![feature(option_result_contains)]
 
 use std::io;
-use actix_web::{web, App, HttpRequest, HttpServer, Responder};
+use actix_web::{web, App, HttpRequest, HttpServer, Responder, HttpResponse};
+use cities::countries;
 
 async fn find(req: HttpRequest) -> impl Responder {
-    let name = req.match_info().get("name").unwrap_or("");
+    let name = req.match_info().get("name").unwrap_or("").to_lowercase();
 
-    let mut nodes = cities::poland::PLACES.to_vec();
-    nodes.retain(|node| node.name.to_lowercase().contains(name.to_lowercase().as_str()));
+    let mut nodes = countries::get_data();
+    nodes.retain(|node| node.name.to_lowercase().starts_with(&name));
 
-    // limit to 10 results
-    nodes.truncate(10);
+    // limit to 5 results
+    nodes.truncate(5);
 
     web::Json(nodes)
 }
@@ -22,6 +23,7 @@ async fn main() -> io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .route("/", web::get().to(find))
+            .route("/favicon.ico", web::get().to(|| async { HttpResponse::Ok().body("") }))
             .route("/{name}", web::get().to(find))
     })
         .bind(("0.0.0.0", 30229))?
