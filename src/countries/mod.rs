@@ -5,6 +5,7 @@ pub mod andorra;
 pub mod austria;
 pub mod azores;
 pub mod france;
+pub mod germany;
 pub mod poland;
 pub mod usa;
 
@@ -15,6 +16,7 @@ pub fn get_data() -> Vec<Place> {
     data.extend(austria::places());
     data.extend(azores::places());
     data.extend(france::places());
+    data.extend(germany::places());
     data.extend(poland::places());
     data.extend(usa::places());
     data
