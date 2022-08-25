@@ -3,7 +3,7 @@ use std::io::{self, prelude::*, BufReader};
 use crate::Node;
 
 pub fn process_data() -> io::Result<()> {
-    let file = File::open("us-latest.osm")?;
+    let file = File::open("germany-latest.osm")?;
     let reader = BufReader::new(file);
 
     let mut nodes = Vec::new();
@@ -61,10 +61,10 @@ pub fn to_static_file() -> io::Result<()> {
     let file = File::open("nodes.json")?;
     let reader = BufReader::new(file);
 
-    let country = "USA";
+    let country = "Germany";
     let lines = String::from_utf8(reader.bytes().map(|b| b.unwrap()).collect()).unwrap();
     let nodes: Vec<Node> = serde_json::from_str(&lines).unwrap();
-    let mut places = String::from("pub const PLACES: [Place; 1] = [");
+    let mut places = String::from("pub fn places() -> Vec<Place> {\n    vec![\n");
 
     for node in nodes {
         let name: String = if node.province == "" {
@@ -73,12 +73,12 @@ pub fn to_static_file() -> io::Result<()> {
             format!("{} ({}), {}", node.name, node.province, country)
         };
 
-        places.push_str(&format!("Place {{ name: \"{}\", lat: {:.6}, lon: {:.6} }},\n", name, node.lat, node.lon));
+        places.push_str(&format!("        Place {{ name: \"{}\", lat: {:.6}, lon: {:.6} }},\n", name, node.lat, node.lon));
     }
 
-    places.push_str("];");
+    places.push_str("    ]\n}");
 
-    let mut file = File::create("places.rs")?;
+    let mut file = File::create("countries/germany.rs")?;
     file.write_all(places.as_bytes())?;
 
     Ok(())
